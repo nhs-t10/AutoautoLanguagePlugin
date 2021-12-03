@@ -21,7 +21,7 @@
         </action>
     </actions>
     <extensions defaultExtensionNs="com.intellij">
-        <fileType language="Autoauto" name="Robot file" extensions="autoauto" fieldName="INSTANCE" implementationClass="net.coleh.autoautolanguageplugin.AutoautoFileType"/>
+        <fileType language="Autoauto" name="Autoauto File" extensions="autoauto" fieldName="INSTANCE" implementationClass="net.coleh.autoautolanguageplugin.AutoautoFileType"/>
         <lang.parserDefinition language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.parse.AutoautoParserDefinition"/>
         <lang.syntaxHighlighterFactory language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.parse.syntaxhighlight.AutoautoSyntaxHighlighterFactory"/>
         <colorSettingsPage implementation="net.coleh.autoautolanguageplugin.parse.syntaxhighlight.AutoautoColorSettingsPage"/>

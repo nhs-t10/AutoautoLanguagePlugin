@@ -33,19 +33,29 @@ public class AutoautoFoldingBuilder implements FoldingBuilder, DumbAware {
                 PsiTreeUtil.findChildrenOfAnyType(rootNode, false, AutoautoLabeledStatepath.class, AutoautoFrontMatter.class);
 
         for(PsiElement p : statepaths) {
-            descriptors.add(new FoldingDescriptor(p.getNode(), new TextRange(p.getTextRange().getStartOffset(), p.getTextRange().getEndOffset() - 1)));
+            if(p instanceof AutoautoFrontMatter)
+                descriptors.add(new FoldingDescriptor(p.getNode(),
+                        new TextRange(p.getTextRange().getStartOffset() + 1, p.getTextRange().getEndOffset() - 1))
+                );
+            else if(p instanceof AutoautoLabeledStatepath)
+                descriptors.add(new FoldingDescriptor(p.getNode(),
+                        new TextRange(
+                                p.getTextRange().getStartOffset() + 2 + ((AutoautoLabeledStatepath)p).getLabel().length(),
+                                p.getTextRange().getEndOffset()
+                        ))
+                );
         }
 
         return descriptors.toArray(new FoldingDescriptor[0]);
     }
 
-    private static final String ELLIPSES = "\u2026";
+    private static final String ELLIPSES = "...";
 
     @Nullable
     @Override
     public String getPlaceholderText(@NotNull ASTNode node) {
-        if(node instanceof AutoautoFrontMatter) return ELLIPSES + "front matter" + ELLIPSES;
-        else if(node instanceof AutoautoLabeledStatepath) return ((AutoautoLabeledStatepath)node).getLabel();
+        if(node.getPsi() instanceof AutoautoFrontMatter) return ELLIPSES;
+        else if(node.getPsi() instanceof AutoautoLabeledStatepath) return ELLIPSES;
         else return null;
     }
 
