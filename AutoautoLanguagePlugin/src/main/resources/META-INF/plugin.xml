@@ -1,0 +1,36 @@
+<idea-plugin>
+    <id>net.coleh.autoautolanguageplugin</id>
+    <category>Custom Languages</category>
+    <name>Autoauto Language Support</name>
+    <vendor url="https://github.com/coleh2">coleh</vendor>
+    <version>0.0.60</version>
+    <idea-version since-build="193"/>
+    <depends>com.intellij.gradle</depends>
+    <depends>org.jetbrains.plugins.gradle</depends>
+    <depends>org.jetbrains.android</depends>
+    <depends>com.intellij.modules.androidstudio</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.java</depends>
+    <description>
+        Language support for the Autoauto DSL for First Tech Competition's Autonomous period.
+        Convention-over-configuration approach applied per-project, using the Managers pattern to interact with the robot.
+    </description>
+    <actions>
+        <action id="Autoauto.NewFile" class="net.coleh.autoautolanguageplugin.AutoautoNewFileAction" text="Autoauto File" description="Create a new Autoauto file">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
+        </action>
+    </actions>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType language="Autoauto" name="Robot file" extensions="autoauto" fieldName="INSTANCE" implementationClass="net.coleh.autoautolanguageplugin.AutoautoFileType"/>
+        <lang.parserDefinition language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.parse.AutoautoParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.parse.syntaxhighlight.AutoautoSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="net.coleh.autoautolanguageplugin.parse.syntaxhighlight.AutoautoColorSettingsPage"/>
+        <completion.contributor language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.completion.AutoautoCompletionContributor"/>
+        <annotator language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.annotate.AutoautoAnnotator"/>
+        <lang.commenter language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.comment.AutoautoCommenter"/>
+        <lang.foldingBuilder language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.fold.AutoautoFoldingBuilder"/>
+    </extensions>
+    <applicationListeners>
+        <listener class="net.coleh.autoautolanguageplugin.completion.GradleBuildFinishedRescanListener" topic="com.android.tools.idea.gradle.project.build.GradleBuildListener"/>
+    </applicationListeners>
+</idea-plugin>
