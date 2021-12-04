@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static net.coleh.autoautolanguageplugin.parse.AutoautoTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.coleh.autoautolanguageplugin.parse.*;
+import com.intellij.psi.PsiReference;
 import net.coleh.autoautolanguageplugin.parse.AutoautoPsiUtilImpl.BaseExpressionType;
 
 public class AutoautoVariableReferenceImpl extends ASTWrapperPsiElement implements AutoautoVariableReference {
@@ -30,6 +31,26 @@ public class AutoautoVariableReferenceImpl extends ASTWrapperPsiElement implemen
   @Override
   public BaseExpressionType getBaseExpressionType() {
     return AutoautoPsiUtilImpl.getBaseExpressionType(this);
+  }
+
+  @Override
+  public PsiReference getReference() {
+    return AutoautoPsiUtilImpl.getReference(this);
+  }
+
+  @Override
+  public String getName() {
+    return AutoautoPsiUtilImpl.getName(this);
+  }
+
+  @Override
+  public PsiElement setName(String name) {
+    return AutoautoPsiUtilImpl.setName(this, name);
+  }
+
+  @Override
+  public PsiReference[] getReferences() {
+    return AutoautoPsiUtilImpl.getReferences(this);
   }
 
 }

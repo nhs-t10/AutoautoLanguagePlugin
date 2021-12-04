@@ -2,6 +2,10 @@ package net.coleh.autoautolanguageplugin.parse;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiReference;
+
+import net.coleh.autoautolanguageplugin.gotoreference.AutoautoPsiReference;
+import net.coleh.autoautolanguageplugin.gotoreference.PsiMakerHelper;
 
 import java.util.List;
 
@@ -56,5 +60,41 @@ public class AutoautoPsiUtilImpl {
         } else {
             return null;
         }
+    }
+
+    public static PsiElement setName(AutoautoVariableReference statement, String name) {
+        //have to do this bc `getChildren()` doesn't include leafs ://
+        statement.getFirstChild().replace(PsiMakerHelper.makeIdentifier(statement.getProject(), name));
+        return statement;
+    }
+
+    public static PsiElement setName(AutoautoLetStatement statement, String name) {
+        //have to do this bc `getChildren()` doesn't include leafs ://
+        statement.getFirstChild().getNextSibling().replace(PsiMakerHelper.makeIdentifier(statement.getProject(), name));
+        return statement;
+    }
+
+    public static String getName(AutoautoLetStatement statement) {
+        //have to do this bc `getChildren()` doesn't include leafs ://
+        return statement.getFirstChild().getNextSibling().getText();
+    }
+
+    public static String getName(AutoautoVariableReference statement) {
+        return statement.getFirstChild().getText();
+    }
+
+    public static PsiReference[] getReferences(AutoautoVariableReference node) {
+        return new PsiReference[] { getReference(node) };
+    }
+    public static PsiReference getReference(AutoautoVariableReference node) {
+        //don't make a reference for nodes in a let statement.
+        if(node.getParent() instanceof AutoautoLetStatement) return null;
+
+
+        return new AutoautoPsiReference(node);
+    }
+    public static PsiElement getNameIdentifier(AutoautoLetStatement letStatement) {
+        //have to do this bc `getChildren()` doesn't include leafs ://
+        return letStatement.getFirstChild().getNextSibling();
     }
 }

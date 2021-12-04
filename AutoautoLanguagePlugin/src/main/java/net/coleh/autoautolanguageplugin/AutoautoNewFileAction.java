@@ -10,8 +10,6 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 
-import net.coleh.autoautolanguageplugin.completion.AutoautoBuiltinFunctionCompletions;
-
 import org.jetbrains.annotations.NotNull;
 
 
@@ -23,9 +21,6 @@ public class AutoautoNewFileAction extends CreateFileAction {
 
     @Override
     protected PsiElement[] create(@NotNull String newName, PsiDirectory directory) throws Exception {
-        AutoautoBuiltinFunctionCompletions.loadRecords(directory.getProject().getBasePath());
-        AutoautoBuiltinFunctionCompletions.addListenersIfNeeded(directory.getProject());
-
         if(newName.endsWith(".autoauto")) return super.create(newName, directory);
         else return super.create(newName + ".autoauto", directory);
     }

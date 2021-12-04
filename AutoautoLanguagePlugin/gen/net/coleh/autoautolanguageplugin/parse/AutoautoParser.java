@@ -735,29 +735,19 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LET (IDENTIFIER|dynamicValue) settableTail* commentOpportunity* EQUALS commentOpportunity* value
+  // LET IDENTIFIER settableTail* commentOpportunity* EQUALS commentOpportunity* value
   public static boolean letStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "letStatement")) return false;
     if (!nextTokenIs(b, LET)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, LET);
-    r = r && letStatement_1(b, l + 1);
+    r = consumeTokens(b, 0, LET, IDENTIFIER);
     r = r && letStatement_2(b, l + 1);
     r = r && letStatement_3(b, l + 1);
     r = r && consumeToken(b, EQUALS);
     r = r && letStatement_5(b, l + 1);
     r = r && value(b, l + 1);
     exit_section_(b, m, LET_STATEMENT, r);
-    return r;
-  }
-
-  // IDENTIFIER|dynamicValue
-  private static boolean letStatement_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "letStatement_1")) return false;
-    boolean r;
-    r = consumeToken(b, IDENTIFIER);
-    if (!r) r = dynamicValue(b, l + 1);
     return r;
   }
 

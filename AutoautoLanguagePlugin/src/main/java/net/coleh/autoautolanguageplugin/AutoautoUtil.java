@@ -15,24 +15,4 @@ import java.util.List;
 
 public class AutoautoUtil {
 
-    /**
-     * Searches the entire project for Simple language files with instances of the Simple property with the given key.
-     *
-     * @param file file to search in
-     * @param statepathLabel     to check
-     * @return matching properties
-     */
-    public static AutoautoLabeledStatepath findStatepath(PsiFile file, String statepathLabel) {
-        if (file != null) {
-            AutoautoLabeledStatepath[] statepaths = PsiTreeUtil.getChildrenOfType(file, AutoautoLabeledStatepath.class);
-            if (statepaths != null) {
-                for (AutoautoLabeledStatepath path : statepaths) {
-                    if (path.getLabel().equals(statepathLabel)) {
-                        return path;
-                    }
-                }
-            }
-        }
-        return null;
-    }
 }

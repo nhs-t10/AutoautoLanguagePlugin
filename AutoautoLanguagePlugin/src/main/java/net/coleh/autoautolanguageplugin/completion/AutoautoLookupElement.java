@@ -6,20 +6,34 @@ import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 
+import net.coleh.autoautolanguageplugin.AutoautoIcons;
+
 import org.jetbrains.annotations.NotNull;
 
-public class AutoautoFrontmatterKeyLookupElement extends LookupElement {
-    private String description;
+import javax.swing.Icon;
+
+public class AutoautoLookupElement extends LookupElement {
+    private String returnType;
     private String name;
+    private String[] args;
+    private Icon icon;
+
     @NotNull
     @Override
     public String getLookupString() {
         return name;
     }
 
-    public AutoautoFrontmatterKeyLookupElement(String name, String description) {
+    public AutoautoLookupElement(String name, String[] args, String returnType, Icon icon) {
         this.name = name;
-        this.description = description;
+        this.args = args;
+        this.returnType = returnType;
+        this.icon = icon;
+    }
+
+    public AutoautoLookupElement(String name, Icon icon) {
+        this.name = name;
+        this.icon = icon;
     }
 
     @Override
@@ -27,12 +41,18 @@ public class AutoautoFrontmatterKeyLookupElement extends LookupElement {
         PsiFile file = context.getFile();
         PsiElement elem = file.findElementAt(context.getSelectionEndOffset());
 
-
     }
     @Override
     public void renderElement(LookupElementPresentation presentation) {
+        presentation.setIcon(this.icon);
         presentation.setItemText(name);
-        presentation.appendTailTextItalic(description, false);
+
+        if(this.args != null) {
+            String argsJoined = String.join(", ", this.args);
+            presentation.appendTailText("(" + argsJoined + ")", true);
+        }
+
+        if(returnType != null && returnType.length() > 0) presentation.appendTailTextItalic(" : " + returnType, true);
     }
 
     public boolean isWorthShowingInAutoPopup() {

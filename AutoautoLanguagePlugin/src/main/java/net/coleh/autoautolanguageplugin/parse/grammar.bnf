@@ -45,7 +45,10 @@ ifStatement ::= (IF|WHEN) valueInParens statement
 
 funcDefStatement ::= FUNCTION (IDENTIFIER|dynamicValue) functionArgsBody
 
-letStatement ::= LET (IDENTIFIER|dynamicValue) settableTail* commentOpportunity* EQUALS commentOpportunity* value
+letStatement ::= LET IDENTIFIER settableTail* commentOpportunity* EQUALS commentOpportunity* value {
+  implements="com.intellij.psi.PsiNameIdentifierOwner"
+  methods=[getName setName getNameIdentifier]
+}
 
 nextStatement ::= NEXT
 
@@ -77,7 +80,7 @@ propertyGetTail ::= DOT variableReference
 functionCallTail ::= OPEN_PAREN [argumentList] CLOSE_PAREN
 arrayElementGetTail ::= OPEN_SQUARE_BRACKET value CLOSE_SQUARE_BRACKET
 
-variableReference ::= IDENTIFIER {methods=[getBaseExpressionType]}
+variableReference ::= IDENTIFIER {methods=[getBaseExpressionType getReference getName setName getReferences]}
 
 functionExpression ::= FUNC functionArgsBody
 

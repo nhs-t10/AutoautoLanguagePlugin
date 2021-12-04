@@ -2,16 +2,12 @@ package net.coleh.autoautolanguageplugin.completion;
 
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.patterns.PlatformPatterns;
-import com.intellij.util.ProcessingContext;
-
-import net.coleh.autoautolanguageplugin.parse.AutoautoTypes;
 
 
+import net.coleh.autoautolanguageplugin.documentation.JavadocCommentFinder;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,9 +21,12 @@ public class AutoautoCompletionContributor extends CompletionContributor {
         if(!parameters.getCompletionType().equals(CompletionType.BASIC)) return;
         if(parameters.getEditor().getProject() == null) return;
 
-        AutoautoBuiltinFunctionCompletions.AutoautoBuiltinFunctionRecord[] records = AutoautoBuiltinFunctionCompletions.getRecords(parameters.getEditor().getProject().getBasePath());
-        for(AutoautoBuiltinFunctionCompletions.AutoautoBuiltinFunctionRecord record : records) resultSet.addElement(new AutoautoFunctionLookupElement(record));
+        for(AutoautoLookupElement record : ManagerMethodLister.getFunctionAutocompleteList(parameters.getEditor().getProject())) resultSet.addElement(record);
 
-        resultSet.addElement(LookupElementBuilder.create(parameters.getOriginalPosition().getParent().getClass().getCanonicalName()));
+        ArrayList<AutoautoLookupElement> inFile = new ArrayList<>();
+
+        FileDefinedWordsLister.addDefinedWords(parameters.getOriginalFile(), inFile);
+
+        for(AutoautoLookupElement record : inFile) resultSet.addElement(record);
     }
 }

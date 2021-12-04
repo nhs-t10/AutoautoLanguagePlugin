@@ -33,12 +33,6 @@ public class AutoautoLetStatementImpl extends ASTWrapperPsiElement implements Au
   }
 
   @Override
-  @Nullable
-  public AutoautoDynamicValue getDynamicValue() {
-    return findChildByClass(AutoautoDynamicValue.class);
-  }
-
-  @Override
   @NotNull
   public List<AutoautoSettableTail> getSettableTailList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, AutoautoSettableTail.class);
@@ -48,6 +42,21 @@ public class AutoautoLetStatementImpl extends ASTWrapperPsiElement implements Au
   @NotNull
   public AutoautoValue getValue() {
     return findNotNullChildByClass(AutoautoValue.class);
+  }
+
+  @Override
+  public String getName() {
+    return AutoautoPsiUtilImpl.getName(this);
+  }
+
+  @Override
+  public PsiElement setName(String name) {
+    return AutoautoPsiUtilImpl.setName(this, name);
+  }
+
+  @Override
+  public PsiElement getNameIdentifier() {
+    return AutoautoPsiUtilImpl.getNameIdentifier(this);
   }
 
 }

@@ -4,6 +4,7 @@ package net.coleh.autoautolanguageplugin.parse;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiNameIdentifierOwner;
 
 public class AutoautoVisitor extends PsiElementVisitor {
 
@@ -112,7 +113,7 @@ public class AutoautoVisitor extends PsiElementVisitor {
   }
 
   public void visitLetStatement(@NotNull AutoautoLetStatement o) {
-    visitPsiElement(o);
+    visitPsiNameIdentifierOwner(o);
   }
 
   public void visitLineComment(@NotNull AutoautoLineComment o) {
@@ -193,6 +194,10 @@ public class AutoautoVisitor extends PsiElementVisitor {
 
   public void visitVariableReference(@NotNull AutoautoVariableReference o) {
     visitPsiElement(o);
+  }
+
+  public void visitPsiNameIdentifierOwner(@NotNull PsiNameIdentifierOwner o) {
+    visitElement(o);
   }
 
   public void visitPsiElement(@NotNull PsiElement o) {

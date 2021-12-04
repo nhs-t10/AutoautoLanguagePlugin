@@ -29,8 +29,6 @@
         <annotator language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.annotate.AutoautoAnnotator"/>
         <lang.commenter language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.comment.AutoautoCommenter"/>
         <lang.foldingBuilder language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.fold.AutoautoFoldingBuilder"/>
+        <lang.documentationProvider language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.documentation.AutoautoDocumentationProvider"/>
     </extensions>
-    <applicationListeners>
-        <listener class="net.coleh.autoautolanguageplugin.completion.GradleBuildFinishedRescanListener" topic="com.android.tools.idea.gradle.project.build.GradleBuildListener"/>
-    </applicationListeners>
 </idea-plugin>
