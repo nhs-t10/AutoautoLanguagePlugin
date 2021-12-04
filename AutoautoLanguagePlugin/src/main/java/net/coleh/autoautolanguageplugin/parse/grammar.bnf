@@ -47,7 +47,7 @@ funcDefStatement ::= FUNCTION (IDENTIFIER|dynamicValue) functionArgsBody
 
 letStatement ::= LET IDENTIFIER settableTail* commentOpportunity* EQUALS commentOpportunity* value {
   implements="com.intellij.psi.PsiNameIdentifierOwner"
-  methods=[getName setName getNameIdentifier]
+  methods=[getName setName getNameIdentifier getTextOffset]
 }
 
 nextStatement ::= NEXT

@@ -30,7 +30,7 @@ public class AutoautoDocumentationProvider extends AbstractDocumentationProvider
 
         String doc = JavadocCommentFinder.getFunctionAutocomplete(element.getProject(), name);
 
-        if(doc == null) throw new IllegalStateException(element.getText() + " -- " + "--" + name);
+        if(doc == null) doc = (element.getText() + " -- " + "--" + name);
 
         return doc;
     }

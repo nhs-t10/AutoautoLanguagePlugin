@@ -22,11 +22,13 @@ import java.util.Collection;
 public class AutoautoPsiReference implements PsiReference {
     private final AutoautoVariableReference node;
     public String filename;
+    public PsiFile file;
     String name;
     public AutoautoPsiReference(AutoautoVariableReference node) {
         this.node = node;
         this.name = node.getName();
-        this.filename = node.getContainingFile().getName();
+        this.file = node.getContainingFile();
+        this.filename = file.getName();
     }
 
     @NotNull
@@ -50,15 +52,14 @@ public class AutoautoPsiReference implements PsiReference {
 
     @Nullable
     @Override
-    public PsiElement resolve() {
-        AutoautoLetStatement[] letStatements = PsiTreeUtil.getChildrenOfType(node.getContainingFile(), AutoautoLetStatement.class);
-        if(letStatements != null) {
-            for (AutoautoLetStatement s : letStatements) {
-                if (s.getName().equals(name)) return s;
-            }
+    public PsiNamedElement resolve() {
+        Collection<AutoautoLetStatement> letStatements = PsiTreeUtil.findChildrenOfType(file, AutoautoLetStatement.class);
+        for (AutoautoLetStatement s : letStatements) {
+            if (s.getName().equals(name)) return s;
         }
+        throw new IllegalArgumentException(name + " " + letStatements.size() + " " + filename);
         //no items-- therefore, must be built-in (or null)
-        return JavaMethodFinder.getByName(node.getProject(), name);
+        //return JavaMethodFinder.getByName(node.getProject(), name);
     }
 
     @NotNull
@@ -95,6 +96,6 @@ public class AutoautoPsiReference implements PsiReference {
 
     @Override
     public String toString() {
-        return "ref:" + name;
+        return "ref:" + getCanonicalText();
     }
 }

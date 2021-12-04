@@ -59,4 +59,9 @@ public class AutoautoLetStatementImpl extends ASTWrapperPsiElement implements Au
     return AutoautoPsiUtilImpl.getNameIdentifier(this);
   }
 
+  @Override
+  public int getTextOffset() {
+    return AutoautoPsiUtilImpl.getTextOffset(this);
+  }
+
 }

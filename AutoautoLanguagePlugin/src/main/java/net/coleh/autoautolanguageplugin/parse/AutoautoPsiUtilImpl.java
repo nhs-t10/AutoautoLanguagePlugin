@@ -83,6 +83,10 @@ public class AutoautoPsiUtilImpl {
         return statement.getFirstChild().getText();
     }
 
+    public static int getTextOffset(AutoautoLetStatement node) {
+        return 4;
+    }
+
     public static PsiReference[] getReferences(AutoautoVariableReference node) {
         return new PsiReference[] { getReference(node) };
     }

@@ -23,4 +23,6 @@ public interface AutoautoLetStatement extends PsiNameIdentifierOwner {
 
   PsiElement getNameIdentifier();
 
+  int getTextOffset();
+
 }
