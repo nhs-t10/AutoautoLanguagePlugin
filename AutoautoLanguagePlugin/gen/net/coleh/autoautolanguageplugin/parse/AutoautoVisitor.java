@@ -81,7 +81,7 @@ public class AutoautoVisitor extends PsiElementVisitor {
   }
 
   public void visitFuncDefStatement(@NotNull AutoautoFuncDefStatement o) {
-    visitPsiElement(o);
+    visitPsiNameIdentifierOwner(o);
   }
 
   public void visitFunctionArgsBody(@NotNull AutoautoFunctionArgsBody o) {

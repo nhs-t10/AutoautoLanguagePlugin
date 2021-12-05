@@ -552,25 +552,15 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FUNCTION (IDENTIFIER|dynamicValue) functionArgsBody
+  // FUNCTION IDENTIFIER functionArgsBody
   public static boolean funcDefStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "funcDefStatement")) return false;
     if (!nextTokenIs(b, FUNCTION)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, FUNCTION);
-    r = r && funcDefStatement_1(b, l + 1);
+    r = consumeTokens(b, 0, FUNCTION, IDENTIFIER);
     r = r && functionArgsBody(b, l + 1);
     exit_section_(b, m, FUNC_DEF_STATEMENT, r);
-    return r;
-  }
-
-  // IDENTIFIER|dynamicValue
-  private static boolean funcDefStatement_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "funcDefStatement_1")) return false;
-    boolean r;
-    r = consumeToken(b, IDENTIFIER);
-    if (!r) r = dynamicValue(b, l + 1);
     return r;
   }
 

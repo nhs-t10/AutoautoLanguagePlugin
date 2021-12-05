@@ -5,6 +5,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.PsiParameter;
 import com.intellij.psi.PsiType;
 import com.intellij.psi.javadoc.PsiDocComment;
@@ -21,7 +22,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class JavaMethodFinder {
-    public static PsiElement getByName(Project project, String name) {
+    public static PsiNamedElement getByName(Project project, String name) {
         PsiClass[] featureManagerClasses = PsiShortNamesCache.getInstance(project).getClassesByName("FeatureManager", GlobalSearchScope.projectScope(project));
 
         PsiClass featureManager = null;

@@ -28,6 +28,12 @@ intellij {
     plugins "android"
 }
 
-tasks {
-    buildPlugin
+runIde {
+    buildSearchableOptions.enabled = false
+    ideDirectory = file('C:\\Program Files\\Android\\Android Studio')
+}
+
+
+buildPlugin {
+    buildSearchableOptions.enabled = false
 }

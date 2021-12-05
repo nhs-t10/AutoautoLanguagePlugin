@@ -7,6 +7,7 @@ import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 
 
+import net.coleh.autoautolanguageplugin.NotificationShowerHelper;
 import net.coleh.autoautolanguageplugin.documentation.JavadocCommentFinder;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +27,8 @@ public class AutoautoCompletionContributor extends CompletionContributor {
         ArrayList<AutoautoLookupElement> inFile = new ArrayList<>();
 
         FileDefinedWordsLister.addDefinedWords(parameters.getOriginalFile(), inFile);
+
+        NotificationShowerHelper.showNotif("Title", "subtitle", "it works", parameters.getEditor().getProject());
 
         for(AutoautoLookupElement record : inFile) resultSet.addElement(record);
     }

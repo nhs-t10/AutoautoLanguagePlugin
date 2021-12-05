@@ -43,10 +43,13 @@ gotoStatement ::= GOTO (IDENTIFIER|dynamicValue)
 
 ifStatement ::= (IF|WHEN) valueInParens statement
 
-funcDefStatement ::= FUNCTION (IDENTIFIER|dynamicValue) functionArgsBody
+funcDefStatement ::= FUNCTION IDENTIFIER functionArgsBody {
+    implements=["com.intellij.psi.PsiNameIdentifierOwner"]
+  methods=[getName setName getNameIdentifier getTextOffset]
+}
 
 letStatement ::= LET IDENTIFIER settableTail* commentOpportunity* EQUALS commentOpportunity* value {
-  implements="com.intellij.psi.PsiNameIdentifierOwner"
+  implements=["com.intellij.psi.PsiNameIdentifierOwner"]
   methods=[getName setName getNameIdentifier getTextOffset]
 }
 
@@ -80,7 +83,10 @@ propertyGetTail ::= DOT variableReference
 functionCallTail ::= OPEN_PAREN [argumentList] CLOSE_PAREN
 arrayElementGetTail ::= OPEN_SQUARE_BRACKET value CLOSE_SQUARE_BRACKET
 
-variableReference ::= IDENTIFIER {methods=[getBaseExpressionType getReference getName setName getReferences]}
+variableReference ::= IDENTIFIER {
+    mixin= "net.coleh.autoautolanguageplugin.gotoreference.AutoautoVariableReferenceImplReferenceBridge"
+    methods=[getBaseExpressionType getReference getName setName getReferences resolve]
+}
 
 functionExpression ::= FUNC functionArgsBody
 

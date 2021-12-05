@@ -6,10 +6,14 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.PsiReference;
+import com.intellij.psi.PsiReferenceBase;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 
+import net.coleh.autoautolanguageplugin.NotificationShowerHelper;
+import net.coleh.autoautolanguageplugin.parse.AutoautoFuncDefStatement;
 import net.coleh.autoautolanguageplugin.parse.AutoautoLetStatement;
+import net.coleh.autoautolanguageplugin.parse.AutoautoPsiUtilImpl;
 import net.coleh.autoautolanguageplugin.parse.AutoautoVariableReference;
 import net.coleh.autoautolanguageplugin.parse.impl.AutoautoVariableReferenceImpl;
 
@@ -19,12 +23,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class AutoautoPsiReference implements PsiReference {
+public class AutoautoPsiReference extends PsiReferenceBase<PsiElement> {
     private final AutoautoVariableReference node;
     public String filename;
     public PsiFile file;
     String name;
     public AutoautoPsiReference(AutoautoVariableReference node) {
+        super(node, false);
         this.node = node;
         this.name = node.getName();
         this.file = node.getContainingFile();
@@ -39,7 +44,7 @@ public class AutoautoPsiReference implements PsiReference {
 
     @NotNull
     @Override
-    //TODO: make this work. It's an experimental API, so it doesn't need to work for now (December 2021)
+    //TODO: make this work. It's an experimental API, so it doesn't need to work for now (written December 2021)
     public Collection<? extends SymbolResolveResult> resolveReference() {
         return new ArrayList<>();
     }
@@ -47,19 +52,30 @@ public class AutoautoPsiReference implements PsiReference {
     @NotNull
     @Override
     public TextRange getRangeInElement() {
-        return node.getTextRange();
+        return new TextRange(0,node.getTextLength());
     }
 
     @Nullable
     @Override
     public PsiNamedElement resolve() {
+        NotificationShowerHelper.showNotif("DEBUG", "They tried to resolve it", "resolving...", node.getProject());
+
         Collection<AutoautoLetStatement> letStatements = PsiTreeUtil.findChildrenOfType(file, AutoautoLetStatement.class);
         for (AutoautoLetStatement s : letStatements) {
             if (s.getName().equals(name)) return s;
         }
-        throw new IllegalArgumentException(name + " " + letStatements.size() + " " + filename);
-        //no items-- therefore, must be built-in (or null)
-        //return JavaMethodFinder.getByName(node.getProject(), name);
+        if(node.getBaseExpressionType() == AutoautoPsiUtilImpl.BaseExpressionType.FUNCTION_CALL) {
+            //if it's a function, look for functions...
+            Collection<AutoautoFuncDefStatement> functionDefStatements = PsiTreeUtil.findChildrenOfType(file, AutoautoFuncDefStatement.class);
+            for (AutoautoFuncDefStatement s : functionDefStatements) {
+                if (s.getName().equals(name)) return s;
+            }
+            //no items-- therefore, must be built-in (or null)
+            return JavaMethodFinder.getByName(node.getProject(), name);
+        }
+
+        NotificationShowerHelper.showNotif("DEBUG", "It resolved to null", "resolve = null", node.getProject());
+        return null;
     }
 
     @NotNull
@@ -91,11 +107,12 @@ public class AutoautoPsiReference implements PsiReference {
 
     @Override
     public boolean isSoft() {
-        return true;
+        return false;
     }
 
     @Override
     public String toString() {
-        return "ref:" + getCanonicalText();
+        PsiNamedElement r = resolve();
+        return "ref:" + getCanonicalText() + "(" + (r == null ? null : r.getTextRange()) + ")";
     }
 }

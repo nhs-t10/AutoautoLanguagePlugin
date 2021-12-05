@@ -27,15 +27,29 @@ public class AutoautoFuncDefStatementImpl extends ASTWrapperPsiElement implement
   }
 
   @Override
-  @Nullable
-  public AutoautoDynamicValue getDynamicValue() {
-    return findChildByClass(AutoautoDynamicValue.class);
-  }
-
-  @Override
   @NotNull
   public AutoautoFunctionArgsBody getFunctionArgsBody() {
     return findNotNullChildByClass(AutoautoFunctionArgsBody.class);
+  }
+
+  @Override
+  public String getName() {
+    return AutoautoPsiUtilImpl.getName(this);
+  }
+
+  @Override
+  public PsiElement setName(String name) {
+    return AutoautoPsiUtilImpl.setName(this, name);
+  }
+
+  @Override
+  public PsiElement getNameIdentifier() {
+    return AutoautoPsiUtilImpl.getNameIdentifier(this);
+  }
+
+  @Override
+  public int getTextOffset() {
+    return AutoautoPsiUtilImpl.getTextOffset(this);
   }
 
 }
