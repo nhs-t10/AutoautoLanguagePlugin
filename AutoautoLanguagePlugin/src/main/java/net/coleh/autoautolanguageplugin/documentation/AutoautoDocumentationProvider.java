@@ -60,11 +60,11 @@ public class AutoautoDocumentationProvider extends AbstractDocumentationProvider
 
     @Override
     public PsiElement getDocumentationElementForLookupItem(PsiManager psiManager, Object object, PsiElement element) {
-        NotificationShowerHelper.showNotif("DEBUG", "getDocumentationElementForLookupItem called",
-                "egc: " + element.getClass().toString() + "\n" +
-                        "egt: " + element.getText() + "\n" +
-                        "ogc: " + object.getClass().toString(),
-                element.getProject());
+//        NotificationShowerHelper.showNotif("DEBUG", "getDocumentationElementForLookupItem called",
+//                "egc: " + element.getClass().toString() + "\n" +
+//                        "egt: " + element.getText() + "\n" +
+//                        "ogc: " + object.getClass().toString(),
+//                element.getProject());
 
         if(object instanceof AutoautoLookupElement) return ((AutoautoLookupElement) object).getPsiElement();
 
