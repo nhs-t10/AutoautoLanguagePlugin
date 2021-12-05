@@ -7,6 +7,7 @@ import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 
 
+import net.coleh.autoautolanguageplugin.AutoautoIcons;
 import net.coleh.autoautolanguageplugin.NotificationShowerHelper;
 import net.coleh.autoautolanguageplugin.documentation.JavadocCommentFinder;
 
@@ -30,5 +31,7 @@ public class AutoautoCompletionContributor extends CompletionContributor {
         ArrayList<AutoautoLookupElement> inFile = new ArrayList<>();
         FileDefinedWordsLister.addDefinedWords(parameters.getOriginalFile(), inFile);
         for(AutoautoLookupElement record : inFile) resultSet.addElement(record);
+
+        resultSet.addElement(new AutoautoLookupElement("James", AutoautoIcons.JAMES,null));
     }
 }

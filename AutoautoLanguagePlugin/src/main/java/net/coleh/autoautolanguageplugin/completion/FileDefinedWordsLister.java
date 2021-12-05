@@ -18,17 +18,18 @@ public class FileDefinedWordsLister {
     public static void addDefinedWords(PsiFile file, ArrayList<AutoautoLookupElement> autocompleteElements) {
         Collection<AutoautoLetStatement> letStatements = PsiTreeUtil.findChildrenOfType(file, AutoautoLetStatement.class);
         for(AutoautoLetStatement l : letStatements) {
-            autocompleteElements.add(new AutoautoLookupElement(l.getName(), AutoautoIcons.LOCAL_VARIABLE));
+            autocompleteElements.add(new AutoautoLookupElement(l.getName(), AutoautoIcons.LOCAL_VARIABLE, l));
         }
 
         Collection<AutoautoFuncDefStatement> funcDefStatements = PsiTreeUtil.findChildrenOfType(file, AutoautoFuncDefStatement.class);
         for(AutoautoFuncDefStatement f : funcDefStatements) {
-            autocompleteElements.add(new AutoautoLookupElement(f.getName(), formatLocalFuncArgs(f), "any", AutoautoIcons.LOCAL_VARIABLE, null));
+            autocompleteElements.add(new AutoautoLookupElement(f.getName(), formatLocalFuncArgs(f),
+                    "any", AutoautoIcons.LOCAL_VARIABLE, null, f));
         }
 
         Collection<AutoautoLabeledStatepath> statepaths = PsiTreeUtil.findChildrenOfType(file,AutoautoLabeledStatepath.class);
         for(AutoautoLabeledStatepath s : statepaths) {
-            autocompleteElements.add(new AutoautoLookupElement(s.getLabel(), AutoautoIcons.STATEPATH));
+            autocompleteElements.add(new AutoautoLookupElement(s.getLabel(), AutoautoIcons.STATEPATH, s));
         }
     }
 

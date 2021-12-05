@@ -59,7 +59,7 @@ public class ManagerMethodLister {
         String returnTypeStr = "";
         if(returnType != null) returnTypeStr = returnType.getPresentableText();
 
-        return new AutoautoLookupElement(m.getName(), argsStr, returnTypeStr, AutoautoIcons.MANAGER_FUNCTION, declaringManager);
+        return new AutoautoLookupElement(m.getName(), argsStr, returnTypeStr, AutoautoIcons.MANAGER_FUNCTION, declaringManager, m);
     }
 
     private static boolean isAutoautoCallable(PsiMethod m) {

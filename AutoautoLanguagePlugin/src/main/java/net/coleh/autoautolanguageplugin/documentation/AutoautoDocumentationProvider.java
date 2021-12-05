@@ -13,6 +13,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import net.coleh.autoautolanguageplugin.AutoautoLanguage;
 import net.coleh.autoautolanguageplugin.NotificationShowerHelper;
+import net.coleh.autoautolanguageplugin.completion.AutoautoLookupElement;
 import net.coleh.autoautolanguageplugin.parse.AutoautoLetStatement;
 import net.coleh.autoautolanguageplugin.parse.AutoautoTokenType;
 import net.coleh.autoautolanguageplugin.parse.AutoautoTypes;
@@ -60,8 +61,11 @@ public class AutoautoDocumentationProvider extends AbstractDocumentationProvider
     public PsiElement getDocumentationElementForLookupItem(PsiManager psiManager, Object object, PsiElement element) {
         NotificationShowerHelper.showNotif("DEBUG", "getDocumentationElementForLookupItem called",
                 "egc: " + element.getClass().toString() + "\n" +
-                        "egt: " + element.getText() + "\n",
+                        "egt: " + element.getText() + "\n" +
+                        "ogc: " + object.getClass().toString(),
                 element.getProject());
+
+        if(object instanceof AutoautoLookupElement) return ((AutoautoLookupElement) object).getPsiElement();
 
         if(element instanceof LeafPsiElement) return element.getParent();
         else return element;

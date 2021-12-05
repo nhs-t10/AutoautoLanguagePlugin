@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.Icon;
 
 public class AutoautoLookupElement extends LookupElement {
+    private PsiElement psiElement;
     private String returnType;
     private String name;
     private String[] args;
@@ -27,17 +28,24 @@ public class AutoautoLookupElement extends LookupElement {
         return name;
     }
 
-    public AutoautoLookupElement(String name, String[] args, String returnType, Icon icon, String definingManager) {
+    public AutoautoLookupElement(String name, String[] args, String returnType, Icon icon, String definingManager, PsiElement psiElement) {
         this.name = name;
         this.args = args;
         this.returnType = returnType;
         this.icon = icon;
         this.definingManager = definingManager;
+        this.psiElement = psiElement;
     }
 
-    public AutoautoLookupElement(String name, Icon icon) {
+    public AutoautoLookupElement(String name, Icon icon, PsiElement psiElement) {
         this.name = name;
         this.icon = icon;
+        this.psiElement = psiElement;
+    }
+
+    @Override
+    public PsiElement getPsiElement() {
+        return psiElement;
     }
 
     @Override
