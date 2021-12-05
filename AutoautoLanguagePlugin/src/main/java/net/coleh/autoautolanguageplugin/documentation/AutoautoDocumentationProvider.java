@@ -33,6 +33,7 @@ public class AutoautoDocumentationProvider extends AbstractDocumentationProvider
         return doc;
     }
 
+
     @Override
     public String generateHoverDoc(PsiElement element, PsiElement originalElement) {
         return generateDoc(element, originalElement);
