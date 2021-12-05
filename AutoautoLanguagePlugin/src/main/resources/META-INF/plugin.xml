@@ -3,7 +3,7 @@
     <category>Custom Languages</category>
     <name>Autoauto Language Support</name>
     <vendor url="https://github.com/coleh2">coleh</vendor>
-    <version>0.0.60</version>
+    <version>0.0.79</version>
     <idea-version since-build="193"/>
     <depends>com.intellij.gradle</depends>
     <depends>org.jetbrains.plugins.gradle</depends>
