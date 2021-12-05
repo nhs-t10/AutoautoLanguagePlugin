@@ -29,16 +29,6 @@ public class AutoautoDocumentationProvider extends AbstractDocumentationProvider
 
         String doc = JavadocCommentFinder.getFunctionAutocomplete(element.getProject(), name);
 
-        NotificationShowerHelper.showNotif("DEBUG", "Documentation!",
-                "aa provider: " + LanguageDocumentation.INSTANCE.forLanguage(AutoautoLanguage.INSTANCE) +
-                "used provider: " + DocumentationManager.getProviderFromElement(element) +
-                "name: " + name + "\n" +
-                "egc: " + element.getClass().toString() + "\n" +
-                "oegc: " + originalElement.getClass().toString() + "\n" +
-                "egt: " + element.getText() + "\n" +
-                "oegt: " + originalElement.getText() + "\n",
-                element.getProject());
-
         return doc;
     }
 

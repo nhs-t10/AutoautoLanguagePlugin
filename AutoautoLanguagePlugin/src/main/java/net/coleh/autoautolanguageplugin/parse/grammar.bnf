@@ -85,7 +85,7 @@ arrayElementGetTail ::= OPEN_SQUARE_BRACKET value CLOSE_SQUARE_BRACKET
 
 variableReference ::= IDENTIFIER {
     mixin= "net.coleh.autoautolanguageplugin.gotoreference.AutoautoVariableReferenceImplReferenceBridge"
-    methods=[getBaseExpressionType getReference getName setName getReferences resolve]
+    methods=[getBaseExpressionType getReference getName setName getReferences]
 }
 
 functionExpression ::= FUNC functionArgsBody
@@ -110,6 +110,6 @@ lineComment ::= LINE_COMMENT_BEGIN COMMENT_TEXT* LINE_COMMENT_END
 
 argumentList ::= (argument COMMA)* argument
 
-argument ::= [value EQUALS] value
+argument ::= value [EQUALS value]
 
 dynamicValue ::= OPEN_SQUARE_BRACKET value CLOSE_SQUARE_BRACKET

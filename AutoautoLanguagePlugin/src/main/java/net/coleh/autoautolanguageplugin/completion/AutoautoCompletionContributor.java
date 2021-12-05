@@ -22,14 +22,13 @@ public class AutoautoCompletionContributor extends CompletionContributor {
         if(!parameters.getCompletionType().equals(CompletionType.BASIC)) return;
         if(parameters.getEditor().getProject() == null) return;
 
-        for(AutoautoLookupElement record : ManagerMethodLister.getFunctionAutocompleteList(parameters.getEditor().getProject())) resultSet.addElement(record);
+        for(AutoautoLookupElement record : ManagerMethodLister.getFunctionAutocompleteList(parameters.getEditor().getProject())) {
+            resultSet.addElement(record);
+        }
 
+        //add local definitions, like statepath names, variables, and such
         ArrayList<AutoautoLookupElement> inFile = new ArrayList<>();
-
         FileDefinedWordsLister.addDefinedWords(parameters.getOriginalFile(), inFile);
-
-        NotificationShowerHelper.showNotif("Title", "subtitle", "it works", parameters.getEditor().getProject());
-
         for(AutoautoLookupElement record : inFile) resultSet.addElement(record);
     }
 }

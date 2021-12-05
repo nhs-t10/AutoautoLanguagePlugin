@@ -30,7 +30,6 @@
         <lang.commenter language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.comment.AutoautoCommenter"/>
         <lang.foldingBuilder language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.fold.AutoautoFoldingBuilder"/>
         <lang.documentationProvider language="Autoauto" order="first" implementationClass="net.coleh.autoautolanguageplugin.documentation.AutoautoDocumentationProvider"/>
-        <documentationProvider language="Autoauto" order="first" implementation="net.coleh.autoautolanguageplugin.documentation.AutoautoDocumentationProvider"/>
         <lang.findUsagesProvider language="Autoauto" implementationClass="net.coleh.autoautolanguageplugin.findusages.AutoautoFindUsagesProvider"/>
     </extensions>
 </idea-plugin>

@@ -58,7 +58,6 @@ public class AutoautoPsiReference extends PsiReferenceBase<PsiElement> {
     @Nullable
     @Override
     public PsiNamedElement resolve() {
-        NotificationShowerHelper.showNotif("DEBUG", "They tried to resolve it", "resolving...", node.getProject());
 
         Collection<AutoautoLetStatement> letStatements = PsiTreeUtil.findChildrenOfType(file, AutoautoLetStatement.class);
         for (AutoautoLetStatement s : letStatements) {
@@ -74,7 +73,6 @@ public class AutoautoPsiReference extends PsiReferenceBase<PsiElement> {
             return JavaMethodFinder.getByName(node.getProject(), name);
         }
 
-        NotificationShowerHelper.showNotif("DEBUG", "It resolved to null", "resolve = null", node.getProject());
         return null;
     }
 

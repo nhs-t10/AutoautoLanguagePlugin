@@ -39,16 +39,17 @@ public class ManagerMethodLister {
         return lookupList;
     }
     public static void addLookupElem(PsiClass managerClass, ArrayList<AutoautoLookupElement> listToAdd) {
+        String managerName = managerClass.getName();
         PsiMethod[] allMethods = managerClass.getAllMethods();
         for(PsiMethod m : allMethods) {
             if(isAutoautoCallable(m)) {
-                listToAdd.add(makeAutocompleteLookupElement(m));
+                listToAdd.add(makeAutocompleteLookupElement(m, managerName));
             }
         }
     }
 
 
-    private static AutoautoLookupElement makeAutocompleteLookupElement(PsiMethod m) {
+    private static AutoautoLookupElement makeAutocompleteLookupElement(PsiMethod m, String declaringManager) {
         PsiParameter[] parameters = m.getParameterList().getParameters();
         String[] argsStr = new String[parameters.length];
         for(int i = 0; i < argsStr.length; i++) {
@@ -58,7 +59,7 @@ public class ManagerMethodLister {
         String returnTypeStr = "";
         if(returnType != null) returnTypeStr = returnType.getPresentableText();
 
-        return new AutoautoLookupElement(m.getName(), argsStr, returnTypeStr, AutoautoIcons.MANAGER_FUNCTION);
+        return new AutoautoLookupElement(m.getName(), argsStr, returnTypeStr, AutoautoIcons.MANAGER_FUNCTION, declaringManager);
     }
 
     private static boolean isAutoautoCallable(PsiMethod m) {

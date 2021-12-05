@@ -25,6 +25,8 @@ public class AutoautoSyntaxHighlighter extends SyntaxHighlighterBase {
             createTextAttributesKey("AUTOAUTO_FUNCTION", DefaultLanguageHighlighterColors.FUNCTION_CALL);
     public static final TextAttributesKey VALUE =
             createTextAttributesKey("AUTOAUTO_VALUE", DefaultLanguageHighlighterColors.STRING);
+    public static final TextAttributesKey BOOLEAN_LITERAL =
+            createTextAttributesKey("AUTOAUTO_BOOLEAN_LITERAL", DefaultLanguageHighlighterColors.NUMBER);
     public static final TextAttributesKey COMMA =
             createTextAttributesKey("AUTOAUTO_COMMA", DefaultLanguageHighlighterColors.COMMA);
     public static final TextAttributesKey PARENS =
@@ -59,6 +61,7 @@ public class AutoautoSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[] { STRING };
     public static final TextAttributesKey[] BAD_CHARACTER_KEYS = new TextAttributesKey[] { BAD_CHARACTER };
     public static final TextAttributesKey[] DOLLAR_SIGN_KEYS = new TextAttributesKey[] { DOLLAR_SIGN };
+    public static final TextAttributesKey[] BOOLEAN_LITERAL_KEYS = new TextAttributesKey[] { BOOLEAN_LITERAL };
 
     public static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[] { };
 
@@ -87,6 +90,8 @@ public class AutoautoSyntaxHighlighter extends SyntaxHighlighterBase {
                 tokenType.equals(AutoautoTypes.COMMENT_TEXT) ||
                 tokenType.equals(AutoautoTypes.COMMENT_END)) {
             return COMMENT_KEYS;
+        } else if(tokenType.equals(AutoautoTypes.FALSE) || tokenType.equals(AutoautoTypes.TRUE)) {
+            return BOOLEAN_LITERAL_KEYS;
         } else if(tokenType.equals(AutoautoTypes.NEXT) ||
                 tokenType.equals(AutoautoTypes.AFTER) ||
                 tokenType.equals(AutoautoTypes.SKIP) ||

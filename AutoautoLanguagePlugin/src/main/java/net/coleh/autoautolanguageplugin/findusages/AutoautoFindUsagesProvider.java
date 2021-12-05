@@ -36,9 +36,7 @@ public class AutoautoFindUsagesProvider implements FindUsagesProvider {
     public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
         if(psiElement instanceof PsiNamedElement) return true;
         else {
-            NotificationShowerHelper.showNotif("Not canFindUsesFor", null, psiElement.getClass().getCanonicalName(),
-                    psiElement.getProject());
-            return true;
+            return false;
         }
     }
 
