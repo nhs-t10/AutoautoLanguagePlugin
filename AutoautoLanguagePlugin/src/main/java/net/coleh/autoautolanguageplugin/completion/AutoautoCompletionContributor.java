@@ -32,6 +32,6 @@ public class AutoautoCompletionContributor extends CompletionContributor {
         FileDefinedWordsLister.addDefinedWords(parameters.getOriginalFile(), inFile);
         for(AutoautoLookupElement record : inFile) resultSet.addElement(record);
 
-        resultSet.addElement(new AutoautoLookupElement("James", AutoautoIcons.JAMES,null));
+        resultSet.addElement(new AutoautoLookupElement("james", AutoautoIcons.JAMES,null));
     }
 }
