@@ -38,9 +38,7 @@ public class AutoautoLookupElement extends LookupElement {
     }
 
     public AutoautoLookupElement(String name, Icon icon, PsiElement psiElement) {
-        this.name = name;
-        this.icon = icon;
-        this.psiElement = psiElement;
+        this(name, null, null, icon, null, psiElement);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.PsiWhiteSpace;
 
+import net.coleh.autoautolanguageplugin.NotificationShowerHelper;
 import net.coleh.autoautolanguageplugin.gotoreference.AutoautoPsiReference;
 import net.coleh.autoautolanguageplugin.gotoreference.PsiMakerHelper;
 import net.coleh.autoautolanguageplugin.parse.impl.AutoautoVariableReferenceImpl;
@@ -53,6 +54,60 @@ public class AutoautoPsiUtilImpl {
 
         return BaseExpressionType.VARIABLE;
     }
+    public static String getCannonicalName(PsiElement v) {
+        PsiElement p = v;
+        //search 7 iterations up for an AutoautoVariableReference
+        for(int i = 0; i < 7 && !(p instanceof AutoautoVariableReference) && p != null; i++) p = p.getParent();
+
+        if(p instanceof AutoautoVariableReference) return getCannonicalName((AutoautoVariableReference)p);
+        else return "";
+    }
+    public static String getCannonicalName(AutoautoVariableReference var) {
+        if(var == null) return null;
+
+        //if it's just `foo`, return it directly!
+        if(var.getParent() instanceof AutoautoAtom) return var.getText();
+
+        AutoautoTail selfTail = (AutoautoTail)(
+            var //VariableReference
+            .getParent() //PropertyGetTail
+            .getParent() //SettableTail
+            .getParent() //Tail
+        );
+
+        //get the base expression! There should always be a base expression somewhere in a VariableReference's tree.
+        AutoautoBaseExpression baseExpression = (AutoautoBaseExpression) selfTail.getParent();
+
+        StringBuilder name = new StringBuilder(getPrototypeLiteralName(baseExpression.getAtom()));
+
+        //get the tail's index
+        List<AutoautoTail> tails = baseExpression.getTailList();
+        int indexOfThisTail = baseExpression.getTailList().indexOf(selfTail);
+
+        for(int i = 0; i <= indexOfThisTail; i++) {
+            AutoautoTail t = tails.get(i);
+            if(t.getFunctionCallTail() != null) {
+                name.append("()");
+                continue;
+            }
+            AutoautoSettableTail settable = t.getSettableTail();
+            if(settable.getArrayElementGetTail() != null) name.append("[]");
+            else name.append(settable.getPropertyGetTail().getText());
+        }
+
+        return name.toString();
+    }
+    public static String getPrototypeLiteralName(AutoautoAtom atom) {
+        if(atom.getArrayLiteral() != null) return "Array";
+        if(atom.getBooleanLiteral() != null) return "Boolean";
+        if(atom.getFunctionExpression() != null) return "Function";
+        if(atom.getUnitValue() != null) return "UnitValue";
+        if(atom.getNumber() != null) return "Number";
+        if(atom.getValueInParens() != null) return "<anon>";
+        if(atom.getVariableReference() != null) return atom.getVariableReference().getText();
+
+        return "";
+    }
     public static String getLabel(AutoautoLabeledStatepath element) {
         ASTNode keyNode = element.getNode().findChildByType(AutoautoTypes.STATEPATH_LABEL_ID);
         if (keyNode != null) {
@@ -93,7 +148,8 @@ public class AutoautoPsiUtilImpl {
     }
 
     public static String getName(AutoautoVariableReference statement) {
-        return statement.getFirstChild().getText();
+        //return statement.getFirstChild().getText();
+        return getCannonicalName(statement);
     }
 
     public static int getTextOffset(AutoautoLetStatement node) {

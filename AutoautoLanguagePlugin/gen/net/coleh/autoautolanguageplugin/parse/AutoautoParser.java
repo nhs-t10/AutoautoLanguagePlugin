@@ -50,31 +50,31 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // [value EQUALS] value
+  // value [EQUALS value]
   public static boolean argument(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "argument")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ARGUMENT, "<argument>");
-    r = argument_0(b, l + 1);
-    r = r && value(b, l + 1);
+    r = value(b, l + 1);
+    r = r && argument_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // [value EQUALS]
-  private static boolean argument_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argument_0")) return false;
-    argument_0_0(b, l + 1);
+  // [EQUALS value]
+  private static boolean argument_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "argument_1")) return false;
+    argument_1_0(b, l + 1);
     return true;
   }
 
-  // value EQUALS
-  private static boolean argument_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "argument_0_0")) return false;
+  // EQUALS value
+  private static boolean argument_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "argument_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = value(b, l + 1);
-    r = r && consumeToken(b, EQUALS);
+    r = consumeToken(b, EQUALS);
+    r = r && value(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -160,7 +160,7 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // commentOpportunity*  (arrayLiteral | NUMERIC_VALUE | stringLiteral | unitValue | variableReference | valueInParens | booleanLiteral | functionExpression) commentOpportunity*
+  // commentOpportunity*  (arrayLiteral | number | stringLiteral | unitValue | variableReference | valueInParens | booleanLiteral | functionExpression) commentOpportunity*
   public static boolean atom(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "atom")) return false;
     boolean r;
@@ -183,12 +183,12 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // arrayLiteral | NUMERIC_VALUE | stringLiteral | unitValue | variableReference | valueInParens | booleanLiteral | functionExpression
+  // arrayLiteral | number | stringLiteral | unitValue | variableReference | valueInParens | booleanLiteral | functionExpression
   private static boolean atom_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "atom_1")) return false;
     boolean r;
     r = arrayLiteral(b, l + 1);
-    if (!r) r = consumeToken(b, NUMERIC_VALUE);
+    if (!r) r = number(b, l + 1);
     if (!r) r = stringLiteral(b, l + 1);
     if (!r) r = unitValue(b, l + 1);
     if (!r) r = variableReference(b, l + 1);
@@ -875,6 +875,18 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, NEXT);
     exit_section_(b, m, NEXT_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // NUMERIC_VALUE
+  public static boolean number(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "number")) return false;
+    if (!nextTokenIs(b, NUMERIC_VALUE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, NUMERIC_VALUE);
+    exit_section_(b, m, NUMBER, r);
     return r;
   }
 

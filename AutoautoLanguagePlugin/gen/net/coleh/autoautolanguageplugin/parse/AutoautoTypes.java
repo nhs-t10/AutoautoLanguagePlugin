@@ -39,6 +39,7 @@ public interface AutoautoTypes {
   IElementType MODULO = new AutoautoElementType("MODULO");
   IElementType MULTI_STATEMENT = new AutoautoElementType("MULTI_STATEMENT");
   IElementType NEXT_STATEMENT = new AutoautoElementType("NEXT_STATEMENT");
+  IElementType NUMBER = new AutoautoElementType("NUMBER");
   IElementType PRODUCT = new AutoautoElementType("PRODUCT");
   IElementType PROPERTY_GET_TAIL = new AutoautoElementType("PROPERTY_GET_TAIL");
   IElementType RETURN_STATEMENT = new AutoautoElementType("RETURN_STATEMENT");
@@ -200,6 +201,9 @@ public interface AutoautoTypes {
       }
       else if (type == NEXT_STATEMENT) {
         return new AutoautoNextStatementImpl(node);
+      }
+      else if (type == NUMBER) {
+        return new AutoautoNumberImpl(node);
       }
       else if (type == PRODUCT) {
         return new AutoautoProductImpl(node);

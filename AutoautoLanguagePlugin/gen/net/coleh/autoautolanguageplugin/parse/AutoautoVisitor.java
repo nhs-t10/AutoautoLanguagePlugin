@@ -132,6 +132,10 @@ public class AutoautoVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitNumber(@NotNull AutoautoNumber o) {
+    visitPsiElement(o);
+  }
+
   public void visitProduct(@NotNull AutoautoProduct o) {
     visitPsiElement(o);
   }

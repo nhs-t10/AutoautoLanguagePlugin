@@ -25,10 +25,11 @@ public abstract class AutoautoVariableReferenceImplReferenceBridge extends ASTWr
 
     public AutoautoVariableReferenceImplReferenceBridge(ASTNode n) {
         super(n);
-        if(this instanceof AutoautoVariableReference) reference = new AutoautoPsiReference((AutoautoVariableReference) this);
+        assert this instanceof AutoautoVariableReference;
+        reference = new AutoautoPsiReference((AutoautoVariableReference) this);
     }
     public PsiNamedElement resolve() {
-        if(this instanceof AutoautoVariableReference) reference = new AutoautoPsiReference((AutoautoVariableReference) this);
+        reference = new AutoautoPsiReference((AutoautoVariableReference) this);
         return reference.resolve();
     }
     public boolean isReferenceTo(PsiElement e) {
@@ -58,9 +59,5 @@ public abstract class AutoautoVariableReferenceImplReferenceBridge extends ASTWr
 
     public Collection<? extends SymbolResolveResult> resolveReference() {
         return new ArrayList<>();
-    }
-
-    public String toString() {
-        return "wrappedbybridge: " + reference.toString();
     }
 }

@@ -10,4 +10,5 @@ public class AutoautoIcons {
     public static final Icon LOCAL_VARIABLE = IconLoader.getIcon("/icons/autoauto-local-variable-16.png");
     public static final Icon STATEPATH = IconLoader.getIcon("/icons/autoauto-statepath-16.png");
     public static final Icon JAMES = IconLoader.getIcon("/icons/autoauto-james-16.png");
+    public static final Icon BUILTIN = IconLoader.getIcon("/icons/autoauto-builtin-16.png");
 }

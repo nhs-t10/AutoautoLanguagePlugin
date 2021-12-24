@@ -71,13 +71,14 @@ product ::= exponent [((MULTIPLY | DIVIDE) exponent)+]
 sum ::= product [((PLUS | MINUS) product)+]
 arithmeticValue ::= sum
 
-atom ::= commentOpportunity*  (arrayLiteral | NUMERIC_VALUE | stringLiteral | unitValue | variableReference | valueInParens | booleanLiteral | functionExpression) commentOpportunity*
+atom ::= commentOpportunity*  (arrayLiteral | number | stringLiteral | unitValue | variableReference | valueInParens | booleanLiteral | functionExpression) commentOpportunity*
 
+number ::= NUMERIC_VALUE
 
 baseExpression ::= atom tail*
 
-settableTail ::= propertyGetTail | arrayElementGetTail
 tail ::= functionCallTail | settableTail
+settableTail ::= propertyGetTail | arrayElementGetTail
 
 propertyGetTail ::= DOT variableReference
 functionCallTail ::= OPEN_PAREN [argumentList] CLOSE_PAREN

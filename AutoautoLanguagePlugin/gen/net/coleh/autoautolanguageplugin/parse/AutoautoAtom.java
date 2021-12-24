@@ -20,6 +20,9 @@ public interface AutoautoAtom extends PsiElement {
   AutoautoFunctionExpression getFunctionExpression();
 
   @Nullable
+  AutoautoNumber getNumber();
+
+  @Nullable
   AutoautoStringLiteral getStringLiteral();
 
   @Nullable

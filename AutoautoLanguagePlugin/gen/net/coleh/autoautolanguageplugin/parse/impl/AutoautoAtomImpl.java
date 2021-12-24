@@ -52,6 +52,12 @@ public class AutoautoAtomImpl extends ASTWrapperPsiElement implements AutoautoAt
 
   @Override
   @Nullable
+  public AutoautoNumber getNumber() {
+    return findChildByClass(AutoautoNumber.class);
+  }
+
+  @Override
+  @Nullable
   public AutoautoStringLiteral getStringLiteral() {
     return findChildByClass(AutoautoStringLiteral.class);
   }

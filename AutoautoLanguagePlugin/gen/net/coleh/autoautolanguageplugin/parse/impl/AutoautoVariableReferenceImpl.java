@@ -1,11 +1,13 @@
 // This is a generated file. Not intended for manual editing.
 package net.coleh.autoautolanguageplugin.parse.impl;
 
+import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-
+import com.intellij.psi.util.PsiTreeUtil;
+import static net.coleh.autoautolanguageplugin.parse.AutoautoTypes.*;
 import net.coleh.autoautolanguageplugin.gotoreference.AutoautoVariableReferenceImplReferenceBridge;
 import net.coleh.autoautolanguageplugin.parse.*;
 import com.intellij.psi.PsiReference;
@@ -13,7 +15,7 @@ import net.coleh.autoautolanguageplugin.parse.AutoautoPsiUtilImpl.BaseExpression
 
 public class AutoautoVariableReferenceImpl extends AutoautoVariableReferenceImplReferenceBridge implements AutoautoVariableReference {
 
-  public AutoautoVariableReferenceImpl(@NotNull ASTNode node) {
+  public AutoautoVariableReferenceImpl(ASTNode node) {
     super(node);
   }
 

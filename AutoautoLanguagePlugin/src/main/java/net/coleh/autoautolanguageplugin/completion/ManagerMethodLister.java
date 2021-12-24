@@ -40,7 +40,7 @@ public class ManagerMethodLister {
     }
     public static void addLookupElem(PsiClass managerClass, ArrayList<AutoautoLookupElement> listToAdd) {
         String managerName = managerClass.getName();
-        PsiMethod[] allMethods = managerClass.getAllMethods();
+        PsiMethod[] allMethods = managerClass.getMethods();
         for(PsiMethod m : allMethods) {
             if(isAutoautoCallable(m)) {
                 listToAdd.add(makeAutocompleteLookupElement(m, managerName));

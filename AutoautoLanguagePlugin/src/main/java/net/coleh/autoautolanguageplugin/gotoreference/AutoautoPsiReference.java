@@ -5,17 +5,15 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiNamedElement;
-import com.intellij.psi.PsiReference;
 import com.intellij.psi.PsiReferenceBase;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 
-import net.coleh.autoautolanguageplugin.NotificationShowerHelper;
+import net.coleh.autoautolanguageplugin.documentation.BuiltinVariableFlatRecord;
 import net.coleh.autoautolanguageplugin.parse.AutoautoFuncDefStatement;
 import net.coleh.autoautolanguageplugin.parse.AutoautoLetStatement;
 import net.coleh.autoautolanguageplugin.parse.AutoautoPsiUtilImpl;
 import net.coleh.autoautolanguageplugin.parse.AutoautoVariableReference;
-import net.coleh.autoautolanguageplugin.parse.impl.AutoautoVariableReferenceImpl;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -59,6 +57,7 @@ public class AutoautoPsiReference extends PsiReferenceBase<PsiElement> {
     @Override
     public PsiNamedElement resolve() {
 
+        //first, look for let statements
         Collection<AutoautoLetStatement> letStatements = PsiTreeUtil.findChildrenOfType(file, AutoautoLetStatement.class);
         for (AutoautoLetStatement s : letStatements) {
             if (s.getName().equals(name)) return s;
@@ -69,7 +68,13 @@ public class AutoautoPsiReference extends PsiReferenceBase<PsiElement> {
             for (AutoautoFuncDefStatement s : functionDefStatements) {
                 if (s.getName().equals(name)) return s;
             }
-            //no items-- therefore, must be built-in (or null)
+            //no items-- therefore, must be built-in, javaesque, or null.
+
+            //search the built-ins' javadocs first
+            PsiNamedElement builtinhybrid = FindMethodInNativeJavadoc.find(node.getProject(), name);
+            if(builtinhybrid != null) return builtinhybrid;
+
+            //then javaesque
             return JavaMethodFinder.getByName(node.getProject(), name);
         }
 
