@@ -210,7 +210,7 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // commentOpportunity* [frontMatter] commentOpportunity* labeledStatepath* commentOpportunity*
+  // commentOpportunity* [frontMatter] commentOpportunity* labeledStatepath*
   static boolean autoautoFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "autoautoFile")) return false;
     boolean r;
@@ -219,7 +219,6 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
     r = r && autoautoFile_1(b, l + 1);
     r = r && autoautoFile_2(b, l + 1);
     r = r && autoautoFile_3(b, l + 1);
-    r = r && autoautoFile_4(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -260,17 +259,6 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
       int c = current_position_(b);
       if (!labeledStatepath(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "autoautoFile_3", c)) break;
-    }
-    return true;
-  }
-
-  // commentOpportunity*
-  private static boolean autoautoFile_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "autoautoFile_4")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!commentOpportunity(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "autoautoFile_4", c)) break;
     }
     return true;
   }
@@ -420,6 +408,39 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
     r = r && value(b, l + 1);
     r = r && consumeToken(b, CLOSE_SQUARE_BRACKET);
     exit_section_(b, m, DYNAMIC_VALUE, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // commentOpportunity* (ELSE|OTHERWISE) statement
+  public static boolean elseClause(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "elseClause")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ELSE_CLAUSE, "<else clause>");
+    r = elseClause_0(b, l + 1);
+    r = r && elseClause_1(b, l + 1);
+    r = r && statement(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // commentOpportunity*
+  private static boolean elseClause_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "elseClause_0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!commentOpportunity(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "elseClause_0", c)) break;
+    }
+    return true;
+  }
+
+  // ELSE|OTHERWISE
+  private static boolean elseClause_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "elseClause_1")) return false;
+    boolean r;
+    r = consumeToken(b, ELSE);
+    if (!r) r = consumeToken(b, OTHERWISE);
     return r;
   }
 
@@ -632,7 +653,7 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // GOTO (IDENTIFIER|dynamicValue)
+  // GOTO (variableReference|dynamicValue)
   public static boolean gotoStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "gotoStatement")) return false;
     if (!nextTokenIs(b, GOTO)) return false;
@@ -644,17 +665,17 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // IDENTIFIER|dynamicValue
+  // variableReference|dynamicValue
   private static boolean gotoStatement_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "gotoStatement_1")) return false;
     boolean r;
-    r = consumeToken(b, IDENTIFIER);
+    r = variableReference(b, l + 1);
     if (!r) r = dynamicValue(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
-  // (IF|WHEN) valueInParens statement
+  // (IF|WHEN) valueInParens statement [elseClause]
   public static boolean ifStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ifStatement")) return false;
     if (!nextTokenIs(b, "<if statement>", IF, WHEN)) return false;
@@ -663,6 +684,7 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
     r = ifStatement_0(b, l + 1);
     r = r && valueInParens(b, l + 1);
     r = r && statement(b, l + 1);
+    r = r && ifStatement_3(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -676,50 +698,46 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
     return r;
   }
 
+  // [elseClause]
+  private static boolean ifStatement_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ifStatement_3")) return false;
+    elseClause(b, l + 1);
+    return true;
+  }
+
   /* ********************************************************** */
-  // commentOpportunity* STATEPATH_LABEL_ID COLON commentOpportunity* statepath commentOpportunity*
+  // STATEPATH_LABEL_ID COLON commentOpportunity* statepath commentOpportunity*
   public static boolean labeledStatepath(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "labeledStatepath")) return false;
+    if (!nextTokenIs(b, STATEPATH_LABEL_ID)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, LABELED_STATEPATH, "<labeled statepath>");
-    r = labeledStatepath_0(b, l + 1);
-    r = r && consumeTokens(b, 0, STATEPATH_LABEL_ID, COLON);
-    r = r && labeledStatepath_3(b, l + 1);
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, STATEPATH_LABEL_ID, COLON);
+    r = r && labeledStatepath_2(b, l + 1);
     r = r && statepath(b, l + 1);
-    r = r && labeledStatepath_5(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    r = r && labeledStatepath_4(b, l + 1);
+    exit_section_(b, m, LABELED_STATEPATH, r);
     return r;
   }
 
   // commentOpportunity*
-  private static boolean labeledStatepath_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "labeledStatepath_0")) return false;
+  private static boolean labeledStatepath_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "labeledStatepath_2")) return false;
     while (true) {
       int c = current_position_(b);
       if (!commentOpportunity(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "labeledStatepath_0", c)) break;
+      if (!empty_element_parsed_guard_(b, "labeledStatepath_2", c)) break;
     }
     return true;
   }
 
   // commentOpportunity*
-  private static boolean labeledStatepath_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "labeledStatepath_3")) return false;
+  private static boolean labeledStatepath_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "labeledStatepath_4")) return false;
     while (true) {
       int c = current_position_(b);
       if (!commentOpportunity(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "labeledStatepath_3", c)) break;
-    }
-    return true;
-  }
-
-  // commentOpportunity*
-  private static boolean labeledStatepath_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "labeledStatepath_5")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!commentOpportunity(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "labeledStatepath_5", c)) break;
+      if (!empty_element_parsed_guard_(b, "labeledStatepath_4", c)) break;
     }
     return true;
   }
@@ -891,6 +909,18 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // PASS
+  public static boolean passStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "passStatement")) return false;
+    if (!nextTokenIs(b, PASS)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, PASS);
+    exit_section_(b, m, PASS_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // exponent [((MULTIPLY | DIVIDE) exponent)+]
   public static boolean product(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "product")) return false;
@@ -984,7 +1014,7 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // commentOpportunity*  (returnStatement|afterStatement|funcDefStatement|functionCallStatement|gotoStatement|ifStatement|letStatement|nextStatement|skipStatement)  commentOpportunity*
+  // commentOpportunity*  (passStatement|returnStatement|afterStatement|funcDefStatement|functionCallStatement|gotoStatement|ifStatement|letStatement|nextStatement|skipStatement)  commentOpportunity*
   public static boolean singleStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "singleStatement")) return false;
     boolean r;
@@ -1007,11 +1037,12 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // returnStatement|afterStatement|funcDefStatement|functionCallStatement|gotoStatement|ifStatement|letStatement|nextStatement|skipStatement
+  // passStatement|returnStatement|afterStatement|funcDefStatement|functionCallStatement|gotoStatement|ifStatement|letStatement|nextStatement|skipStatement
   private static boolean singleStatement_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "singleStatement_1")) return false;
     boolean r;
-    r = returnStatement(b, l + 1);
+    r = passStatement(b, l + 1);
+    if (!r) r = returnStatement(b, l + 1);
     if (!r) r = afterStatement(b, l + 1);
     if (!r) r = funcDefStatement(b, l + 1);
     if (!r) r = functionCallStatement(b, l + 1);

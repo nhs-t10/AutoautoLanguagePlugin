@@ -41,11 +41,14 @@ STATEPATH_LABEL_ID=#\w+
   ","                    { return AutoautoTypes.COMMA; }
   "after "                    { return AutoautoTypes.AFTER; }
   "when "                    { return AutoautoTypes.WHEN; }
-  "func "                    { return AutoautoTypes.FUNC; }
-  "function "                    { return AutoautoTypes.FUNCTION; }
+  "func"                    { return AutoautoTypes.FUNC; }
+  "function"                    { return AutoautoTypes.FUNCTION; }
   "goto "                     { return AutoautoTypes.GOTO; }
   "if "                       { return AutoautoTypes.IF; }
   "if"                       { return AutoautoTypes.IF; }
+  "pass"                       { return AutoautoTypes.PASS; }
+  "else"                       { return AutoautoTypes.ELSE; }
+  "otherwise"                       { return AutoautoTypes.OTHERWISE; }
   "("               { return AutoautoTypes.OPEN_PAREN; }
   ")"              { return AutoautoTypes.CLOSE_PAREN; }
   "let "                      { return AutoautoTypes.LET; }
@@ -82,17 +85,18 @@ STATEPATH_LABEL_ID=#\w+
 
 <IN_STRING> {
     "\""                       { yybegin(YYINITIAL); return AutoautoTypes.QUOTE; }
-     .      { return AutoautoTypes.NON_QUOTE_CHARACTER; }
+     [^\"]+      { return AutoautoTypes.NON_QUOTE_CHARACTER; }
 }
 
 <IN_COMMENT> {
     "*/"              { yybegin(YYINITIAL); return AutoautoTypes.COMMENT_END;  }
-     .              { return AutoautoTypes.COMMENT_TEXT; }
+     [^\n]+              { return AutoautoTypes.COMMENT_TEXT; }
+     "\n"             { return AutoautoTypes.COMMENT_TEXT; }
 }
 
 <IN_LINE_COMMENT> {
     "\n"              { yybegin(YYINITIAL); return AutoautoTypes.LINE_COMMENT_END;  }
-     .              { return AutoautoTypes.COMMENT_TEXT; }
+     [^\n]+              { return AutoautoTypes.COMMENT_TEXT; }
 }
 
 [^] { return TokenType.BAD_CHARACTER; }

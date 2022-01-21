@@ -11,6 +11,8 @@ import com.intellij.util.IncorrectOperationException;
 
 import net.coleh.autoautolanguageplugin.documentation.BuiltinVariableFlatRecord;
 import net.coleh.autoautolanguageplugin.parse.AutoautoFuncDefStatement;
+import net.coleh.autoautolanguageplugin.parse.AutoautoGotoStatement;
+import net.coleh.autoautolanguageplugin.parse.AutoautoLabeledStatepath;
 import net.coleh.autoautolanguageplugin.parse.AutoautoLetStatement;
 import net.coleh.autoautolanguageplugin.parse.AutoautoPsiUtilImpl;
 import net.coleh.autoautolanguageplugin.parse.AutoautoVariableReference;
@@ -30,8 +32,11 @@ public class AutoautoPsiReference extends PsiReferenceBase<PsiElement> {
         super(node, false);
         this.node = node;
         this.name = node.getName();
+
         this.file = node.getContainingFile();
-        this.filename = file.getName();
+
+        if(file != null) this.filename = file.getName();
+        else this.filename = null;
     }
 
     @NotNull
@@ -61,6 +66,13 @@ public class AutoautoPsiReference extends PsiReferenceBase<PsiElement> {
         Collection<AutoautoLetStatement> letStatements = PsiTreeUtil.findChildrenOfType(file, AutoautoLetStatement.class);
         for (AutoautoLetStatement s : letStatements) {
             if (s.getName().equals(name)) return s;
+        }
+        //look for statepaths if this is a goto statement
+        if(node.getParent() instanceof AutoautoGotoStatement) {
+            Collection<AutoautoLabeledStatepath> statepaths = PsiTreeUtil.findChildrenOfType(file, AutoautoLabeledStatepath.class);
+            for (AutoautoLabeledStatepath s : statepaths) {
+                if (s.getName().equals(name)) return s;
+            }
         }
         if(node.getBaseExpressionType() == AutoautoPsiUtilImpl.BaseExpressionType.FUNCTION_CALL) {
             //if it's a function, look for functions...

@@ -11,14 +11,14 @@ import static net.coleh.autoautolanguageplugin.parse.AutoautoTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.coleh.autoautolanguageplugin.parse.*;
 
-public class AutoautoBooleanLiteralImpl extends ASTWrapperPsiElement implements AutoautoBooleanLiteral {
+public class AutoautoPassStatementImpl extends ASTWrapperPsiElement implements AutoautoPassStatement {
 
-  public AutoautoBooleanLiteralImpl(@NotNull ASTNode node) {
+  public AutoautoPassStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AutoautoVisitor visitor) {
-    visitor.visitBooleanLiteral(this);
+    visitor.visitPassStatement(this);
   }
 
   @Override

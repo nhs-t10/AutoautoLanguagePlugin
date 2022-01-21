@@ -40,7 +40,7 @@ public class AutoautoFoldingBuilder implements FoldingBuilder, DumbAware {
             else if(p instanceof AutoautoLabeledStatepath)
                 descriptors.add(new FoldingDescriptor(p.getNode(),
                         new TextRange(
-                                p.getTextRange().getStartOffset() + 2 + ((AutoautoLabeledStatepath)p).getLabel().length(),
+                                p.getTextRange().getStartOffset() + 2 + ((AutoautoLabeledStatepath)p).getName().length(),
                                 p.getTextRange().getEndOffset()
                         ))
                 );

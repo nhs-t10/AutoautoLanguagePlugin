@@ -7,6 +7,9 @@ import com.intellij.psi.PsiElement;
 
 public interface AutoautoIfStatement extends PsiElement {
 
+  @Nullable
+  AutoautoElseClause getElseClause();
+
   @NotNull
   AutoautoStatement getStatement();
 

@@ -21,6 +21,7 @@ public class AutoautoGotoStatementImpl extends ASTWrapperPsiElement implements A
     visitor.visitGotoStatement(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);
@@ -30,6 +31,12 @@ public class AutoautoGotoStatementImpl extends ASTWrapperPsiElement implements A
   @Nullable
   public AutoautoDynamicValue getDynamicValue() {
     return findChildByClass(AutoautoDynamicValue.class);
+  }
+
+  @Override
+  @Nullable
+  public AutoautoVariableReference getVariableReference() {
+    return findChildByClass(AutoautoVariableReference.class);
   }
 
 }

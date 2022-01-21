@@ -21,6 +21,7 @@ public class AutoautoFunctionCallStatementImpl extends ASTWrapperPsiElement impl
     visitor.visitFunctionCallStatement(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);

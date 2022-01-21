@@ -21,6 +21,7 @@ public class AutoautoSumImpl extends ASTWrapperPsiElement implements AutoautoSum
     visitor.visitSum(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);

@@ -21,6 +21,7 @@ public class AutoautoBaseExpressionImpl extends ASTWrapperPsiElement implements 
     visitor.visitBaseExpression(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);

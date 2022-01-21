@@ -96,9 +96,12 @@ public class AutoautoSyntaxHighlighter extends SyntaxHighlighterBase {
                 tokenType.equals(AutoautoTypes.AFTER) ||
                 tokenType.equals(AutoautoTypes.SKIP) ||
                 tokenType.equals(AutoautoTypes.IF) ||
+                tokenType.equals(AutoautoTypes.ELSE) ||
+                tokenType.equals(AutoautoTypes.OTHERWISE) ||
                 tokenType.equals(AutoautoTypes.WHEN) ||
                 tokenType.equals(AutoautoTypes.GOTO) ||
                 tokenType.equals(AutoautoTypes.LET) ||
+                tokenType.equals(AutoautoTypes.PASS) ||
                 tokenType.equals(AutoautoTypes.FUNCTION) ||
                 tokenType.equals(AutoautoTypes.FUNC)) {
             return STATEMENT_KEYS;

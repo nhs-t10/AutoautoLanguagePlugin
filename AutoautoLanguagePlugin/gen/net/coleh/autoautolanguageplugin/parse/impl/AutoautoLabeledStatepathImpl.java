@@ -21,6 +21,7 @@ public class AutoautoLabeledStatepathImpl extends ASTWrapperPsiElement implement
     visitor.visitLabeledStatepath(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);
@@ -39,8 +40,18 @@ public class AutoautoLabeledStatepathImpl extends ASTWrapperPsiElement implement
   }
 
   @Override
-  public String getLabel() {
-    return AutoautoPsiUtilImpl.getLabel(this);
+  public String getName() {
+    return AutoautoPsiUtilImpl.getName(this);
+  }
+
+  @Override
+  public PsiElement setName(String name) {
+    return AutoautoPsiUtilImpl.setName(this, name);
+  }
+
+  @Override
+  public PsiElement getNameIdentifier() {
+    return AutoautoPsiUtilImpl.getNameIdentifier(this);
   }
 
 }

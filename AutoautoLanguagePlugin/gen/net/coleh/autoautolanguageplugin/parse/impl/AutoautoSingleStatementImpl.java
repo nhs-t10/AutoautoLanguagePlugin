@@ -21,6 +21,7 @@ public class AutoautoSingleStatementImpl extends ASTWrapperPsiElement implements
     visitor.visitSingleStatement(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);
@@ -72,6 +73,12 @@ public class AutoautoSingleStatementImpl extends ASTWrapperPsiElement implements
   @Nullable
   public AutoautoNextStatement getNextStatement() {
     return findChildByClass(AutoautoNextStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public AutoautoPassStatement getPassStatement() {
+    return findChildByClass(AutoautoPassStatement.class);
   }
 
   @Override

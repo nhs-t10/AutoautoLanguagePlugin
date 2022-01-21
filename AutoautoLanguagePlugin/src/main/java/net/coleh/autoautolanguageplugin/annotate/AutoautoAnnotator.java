@@ -6,6 +6,7 @@ import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiReference;
 
 import net.coleh.autoautolanguageplugin.AutoautoUtil;
 import net.coleh.autoautolanguageplugin.parse.AutoautoFrontMatter;
@@ -15,6 +16,7 @@ import net.coleh.autoautolanguageplugin.parse.AutoautoPsiUtilImpl;
 import net.coleh.autoautolanguageplugin.parse.AutoautoUnitValue;
 import net.coleh.autoautolanguageplugin.parse.AutoautoVariableReference;
 import net.coleh.autoautolanguageplugin.parse.syntaxhighlight.AutoautoSyntaxHighlighter;
+import net.coleh.autoautolanguageplugin.quickfixes.NonexistentStatepathQuickFix;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +28,24 @@ public class AutoautoAnnotator implements Annotator {
     public static final String PREFIX_STR = "autoauto:";
 
     public void annotate(@NotNull final PsiElement element, @NotNull AnnotationHolder holder) {
+        if(element instanceof AutoautoGotoStatement) {
+
+            AutoautoVariableReference gotoStatepath = ((AutoautoGotoStatement) element).getVariableReference();
+
+            if(gotoStatepath != null) {
+                PsiReference ref = gotoStatepath.getReference();
+                boolean pathExists = ref != null && ref.resolve() != null;
+
+                if (!pathExists) {
+                    String name = gotoStatepath.getName();
+                    holder.newAnnotation(HighlightSeverity.ERROR, "Unknown statepath!")
+                            .range(element)
+                            .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
+                            .withFix(new NonexistentStatepathQuickFix(name))
+                            .create();
+                }
+            }
+        }
         if(element instanceof AutoautoVariableReference) {
             AutoautoVariableReference variableReference = (AutoautoVariableReference)element;
             if(variableReference.getBaseExpressionType() == AutoautoPsiUtilImpl.BaseExpressionType.FUNCTION_CALL) {
@@ -40,7 +60,7 @@ public class AutoautoAnnotator implements Annotator {
             if(hasUnitvalue) {
                 holder.newAnnotation(HighlightSeverity.ERROR, "Usage of unit values in frontmatter is not supported")
                         .range(frontMatterKeyValue.getValue())
-                        .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
+                        .highlightType(ProblemHighlightType.ERROR)
                         .create();
             }
         } else if(element instanceof AutoautoFrontMatter) {

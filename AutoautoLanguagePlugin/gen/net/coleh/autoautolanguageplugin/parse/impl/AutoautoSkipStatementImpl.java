@@ -21,6 +21,7 @@ public class AutoautoSkipStatementImpl extends ASTWrapperPsiElement implements A
     visitor.visitSkipStatement(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);

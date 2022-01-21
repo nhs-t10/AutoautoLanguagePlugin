@@ -68,6 +68,10 @@ public class AutoautoVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitElseClause(@NotNull AutoautoElseClause o) {
+    visitPsiElement(o);
+  }
+
   public void visitExponent(@NotNull AutoautoExponent o) {
     visitPsiElement(o);
   }
@@ -109,7 +113,7 @@ public class AutoautoVisitor extends PsiElementVisitor {
   }
 
   public void visitLabeledStatepath(@NotNull AutoautoLabeledStatepath o) {
-    visitPsiElement(o);
+    visitPsiNameIdentifierOwner(o);
   }
 
   public void visitLetStatement(@NotNull AutoautoLetStatement o) {
@@ -133,6 +137,10 @@ public class AutoautoVisitor extends PsiElementVisitor {
   }
 
   public void visitNumber(@NotNull AutoautoNumber o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPassStatement(@NotNull AutoautoPassStatement o) {
     visitPsiElement(o);
   }
 

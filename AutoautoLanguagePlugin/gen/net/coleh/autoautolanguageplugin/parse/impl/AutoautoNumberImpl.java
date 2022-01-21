@@ -21,6 +21,7 @@ public class AutoautoNumberImpl extends ASTWrapperPsiElement implements Autoauto
     visitor.visitNumber(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);

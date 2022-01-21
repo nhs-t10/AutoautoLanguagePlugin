@@ -21,6 +21,7 @@ public class AutoautoStringLiteralImpl extends ASTWrapperPsiElement implements A
     visitor.visitStringLiteral(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);

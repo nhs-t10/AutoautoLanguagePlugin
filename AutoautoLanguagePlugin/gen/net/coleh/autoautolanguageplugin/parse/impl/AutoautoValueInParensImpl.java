@@ -21,6 +21,7 @@ public class AutoautoValueInParensImpl extends ASTWrapperPsiElement implements A
     visitor.visitValueInParens(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);

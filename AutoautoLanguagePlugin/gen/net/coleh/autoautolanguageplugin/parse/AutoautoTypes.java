@@ -23,6 +23,7 @@ public interface AutoautoTypes {
   IElementType COMMENT_OPPORTUNITY = new AutoautoElementType("COMMENT_OPPORTUNITY");
   IElementType COMPARISON_OPERATOR = new AutoautoElementType("COMPARISON_OPERATOR");
   IElementType DYNAMIC_VALUE = new AutoautoElementType("DYNAMIC_VALUE");
+  IElementType ELSE_CLAUSE = new AutoautoElementType("ELSE_CLAUSE");
   IElementType EXPONENT = new AutoautoElementType("EXPONENT");
   IElementType FRONT_MATTER = new AutoautoElementType("FRONT_MATTER");
   IElementType FRONT_MATTER_KEY_VALUE = new AutoautoElementType("FRONT_MATTER_KEY_VALUE");
@@ -40,6 +41,7 @@ public interface AutoautoTypes {
   IElementType MULTI_STATEMENT = new AutoautoElementType("MULTI_STATEMENT");
   IElementType NEXT_STATEMENT = new AutoautoElementType("NEXT_STATEMENT");
   IElementType NUMBER = new AutoautoElementType("NUMBER");
+  IElementType PASS_STATEMENT = new AutoautoElementType("PASS_STATEMENT");
   IElementType PRODUCT = new AutoautoElementType("PRODUCT");
   IElementType PROPERTY_GET_TAIL = new AutoautoElementType("PROPERTY_GET_TAIL");
   IElementType RETURN_STATEMENT = new AutoautoElementType("RETURN_STATEMENT");
@@ -75,6 +77,7 @@ public interface AutoautoTypes {
   IElementType DIVIDE = new AutoautoTokenType("DIVIDE");
   IElementType DOLLAR_SIGN = new AutoautoTokenType("DOLLAR_SIGN");
   IElementType DOT = new AutoautoTokenType("DOT");
+  IElementType ELSE = new AutoautoTokenType("ELSE");
   IElementType EQUALS = new AutoautoTokenType("EQUALS");
   IElementType EXPONENTIATE = new AutoautoTokenType("EXPONENTIATE");
   IElementType FALSE = new AutoautoTokenType("FALSE");
@@ -96,6 +99,8 @@ public interface AutoautoTypes {
   IElementType OPEN_CURLY_BRACKET = new AutoautoTokenType("OPEN_CURLY_BRACKET");
   IElementType OPEN_PAREN = new AutoautoTokenType("OPEN_PAREN");
   IElementType OPEN_SQUARE_BRACKET = new AutoautoTokenType("OPEN_SQUARE_BRACKET");
+  IElementType OTHERWISE = new AutoautoTokenType("OTHERWISE");
+  IElementType PASS = new AutoautoTokenType("PASS");
   IElementType PLUS = new AutoautoTokenType("PLUS");
   IElementType QUOTE = new AutoautoTokenType("QUOTE");
   IElementType RETURN = new AutoautoTokenType("RETURN");
@@ -154,6 +159,9 @@ public interface AutoautoTypes {
       else if (type == DYNAMIC_VALUE) {
         return new AutoautoDynamicValueImpl(node);
       }
+      else if (type == ELSE_CLAUSE) {
+        return new AutoautoElseClauseImpl(node);
+      }
       else if (type == EXPONENT) {
         return new AutoautoExponentImpl(node);
       }
@@ -204,6 +212,9 @@ public interface AutoautoTypes {
       }
       else if (type == NUMBER) {
         return new AutoautoNumberImpl(node);
+      }
+      else if (type == PASS_STATEMENT) {
+        return new AutoautoPassStatementImpl(node);
       }
       else if (type == PRODUCT) {
         return new AutoautoProductImpl(node);

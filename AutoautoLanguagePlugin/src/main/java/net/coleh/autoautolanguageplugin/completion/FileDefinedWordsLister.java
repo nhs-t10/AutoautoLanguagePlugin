@@ -29,7 +29,7 @@ public class FileDefinedWordsLister {
 
         Collection<AutoautoLabeledStatepath> statepaths = PsiTreeUtil.findChildrenOfType(file,AutoautoLabeledStatepath.class);
         for(AutoautoLabeledStatepath s : statepaths) {
-            autocompleteElements.add(new AutoautoLookupElement(s.getLabel(), AutoautoIcons.STATEPATH, s));
+            autocompleteElements.add(new AutoautoLookupElement(s.getName(), AutoautoIcons.STATEPATH, s));
         }
     }
 

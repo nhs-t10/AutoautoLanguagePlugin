@@ -21,6 +21,7 @@ public class AutoautoExponentImpl extends ASTWrapperPsiElement implements Autoau
     visitor.visitExponent(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);

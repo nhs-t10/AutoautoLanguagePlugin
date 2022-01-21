@@ -32,6 +32,9 @@ public interface AutoautoSingleStatement extends PsiElement {
   AutoautoNextStatement getNextStatement();
 
   @Nullable
+  AutoautoPassStatement getPassStatement();
+
+  @Nullable
   AutoautoReturnStatement getReturnStatement();
 
   @Nullable

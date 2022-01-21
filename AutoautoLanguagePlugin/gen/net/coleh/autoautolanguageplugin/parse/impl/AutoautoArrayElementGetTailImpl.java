@@ -21,6 +21,7 @@ public class AutoautoArrayElementGetTailImpl extends ASTWrapperPsiElement implem
     visitor.visitArrayElementGetTail(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);

@@ -64,6 +64,6 @@ public class AutoautoFindUsagesProvider implements FindUsagesProvider {
     @NotNull
     @Override
     public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
-        return null;
+        return element.getText();
     }
 }

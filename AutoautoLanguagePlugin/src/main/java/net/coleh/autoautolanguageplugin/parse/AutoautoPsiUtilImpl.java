@@ -65,6 +65,9 @@ public class AutoautoPsiUtilImpl {
     public static String getCannonicalName(AutoautoVariableReference var) {
         if(var == null) return null;
 
+        //if it's part of a `goto` statement, return it directly
+        if(var.getParent() instanceof AutoautoGotoStatement) return var.getText();
+
         //if it's just `foo`, return it directly!
         if(var.getParent() instanceof AutoautoAtom) return var.getText();
 
@@ -137,6 +140,11 @@ public class AutoautoPsiUtilImpl {
         return statement;
     }
 
+    public static PsiElement setName(AutoautoLabeledStatepath statement, String name) {
+        statement.getNameIdentifier().replace(PsiMakerHelper.makeStatepathLabel(statement.getProject(), "#" + name));
+        return statement;
+    }
+
     public static String getName(AutoautoLetStatement statement) {
         //have to do this bc `getChildren()` doesn't include leafs ://
         return statement.getNameIdentifier().getText();
@@ -145,6 +153,10 @@ public class AutoautoPsiUtilImpl {
     public static String getName(AutoautoFuncDefStatement statement) {
         //have to do this bc `getChildren()` doesn't include leafs ://
         return statement.getNameIdentifier().getText();
+    }
+
+    public static String getName(AutoautoLabeledStatepath statement) {
+        return statement.getFirstChild().getText().substring(1);
     }
 
     public static String getName(AutoautoVariableReference statement) {
@@ -180,5 +192,9 @@ public class AutoautoPsiUtilImpl {
         PsiElement p = letStatement.getFirstChild().getNextSibling();
         while(p instanceof PsiWhiteSpace) p = p.getNextSibling();
         return p;
+    }
+    public static PsiElement getNameIdentifier(AutoautoLabeledStatepath labeledStatepath) {
+        //have to do this bc `getChildren()` doesn't include leafs ://
+        return labeledStatepath.getFirstChild();
     }
 }

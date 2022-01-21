@@ -21,6 +21,7 @@ public class AutoautoDynamicValueImpl extends ASTWrapperPsiElement implements Au
     visitor.visitDynamicValue(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);

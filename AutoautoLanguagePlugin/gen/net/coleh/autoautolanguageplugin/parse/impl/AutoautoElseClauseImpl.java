@@ -11,20 +11,32 @@ import static net.coleh.autoautolanguageplugin.parse.AutoautoTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.coleh.autoautolanguageplugin.parse.*;
 
-public class AutoautoBooleanLiteralImpl extends ASTWrapperPsiElement implements AutoautoBooleanLiteral {
+public class AutoautoElseClauseImpl extends ASTWrapperPsiElement implements AutoautoElseClause {
 
-  public AutoautoBooleanLiteralImpl(@NotNull ASTNode node) {
+  public AutoautoElseClauseImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull AutoautoVisitor visitor) {
-    visitor.visitBooleanLiteral(this);
+    visitor.visitElseClause(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public List<AutoautoCommentOpportunity> getCommentOpportunityList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, AutoautoCommentOpportunity.class);
+  }
+
+  @Override
+  @NotNull
+  public AutoautoStatement getStatement() {
+    return findNotNullChildByClass(AutoautoStatement.class);
   }
 
 }

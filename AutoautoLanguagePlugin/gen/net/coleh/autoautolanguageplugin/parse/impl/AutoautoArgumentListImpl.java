@@ -21,6 +21,7 @@ public class AutoautoArgumentListImpl extends ASTWrapperPsiElement implements Au
     visitor.visitArgumentList(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof AutoautoVisitor) accept((AutoautoVisitor)visitor);
     else super.accept(visitor);
