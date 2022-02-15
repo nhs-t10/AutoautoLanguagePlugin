@@ -44,6 +44,11 @@ public class AutoautoAnnotator implements Annotator {
                             .withFix(new NonexistentStatepathQuickFix(name))
                             .create();
                 }
+
+                holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+                    .range(gotoStatepath)
+                    .textAttributes(AutoautoSyntaxHighlighter.LABEL)
+                    .create();
             }
         }
         if(element instanceof AutoautoVariableReference) {

@@ -210,7 +210,7 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // commentOpportunity* [frontMatter] commentOpportunity* labeledStatepath*
+  // commentOpportunity* [frontMatter] commentOpportunity* [statepath] commentOpportunity* labeledStatepath*
   static boolean autoautoFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "autoautoFile")) return false;
     boolean r;
@@ -219,6 +219,8 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
     r = r && autoautoFile_1(b, l + 1);
     r = r && autoautoFile_2(b, l + 1);
     r = r && autoautoFile_3(b, l + 1);
+    r = r && autoautoFile_4(b, l + 1);
+    r = r && autoautoFile_5(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -252,13 +254,31 @@ public class AutoautoParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // labeledStatepath*
+  // [statepath]
   private static boolean autoautoFile_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "autoautoFile_3")) return false;
+    statepath(b, l + 1);
+    return true;
+  }
+
+  // commentOpportunity*
+  private static boolean autoautoFile_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "autoautoFile_4")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!commentOpportunity(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "autoautoFile_4", c)) break;
+    }
+    return true;
+  }
+
+  // labeledStatepath*
+  private static boolean autoautoFile_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "autoautoFile_5")) return false;
     while (true) {
       int c = current_position_(b);
       if (!labeledStatepath(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "autoautoFile_3", c)) break;
+      if (!empty_element_parsed_guard_(b, "autoautoFile_5", c)) break;
     }
     return true;
   }

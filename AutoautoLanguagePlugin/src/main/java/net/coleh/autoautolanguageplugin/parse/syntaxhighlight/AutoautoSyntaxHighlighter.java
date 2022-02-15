@@ -86,7 +86,8 @@ public class AutoautoSyntaxHighlighter extends SyntaxHighlighterBase {
             return SEMICOLON_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHARACTER_KEYS;
-        } else if(tokenType.equals(AutoautoTypes.COMMENT_BEGIN) ||
+        } else if(tokenType.equals(AutoautoTypes.LINE_COMMENT_BEGIN) ||
+                tokenType.equals(AutoautoTypes.COMMENT_BEGIN) ||
                 tokenType.equals(AutoautoTypes.COMMENT_TEXT) ||
                 tokenType.equals(AutoautoTypes.COMMENT_END)) {
             return COMMENT_KEYS;
